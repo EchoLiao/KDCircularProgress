@@ -26,7 +26,7 @@ private extension Comparable {
 }
 
 @IBDesignable
-public class KDCircularProgress: UIView, CAAnimationDelegate {
+open class KDCircularProgress: UIView, CAAnimationDelegate {
     private enum Conversion {
         static func degreesToRadians (value:CGFloat) -> CGFloat {
             return value * .pi / 180.0
@@ -80,7 +80,7 @@ public class KDCircularProgress: UIView, CAAnimationDelegate {
         }
     }
     
-    public var progress: Double = 0 {
+    @objc public var progress: Double = 0 {
         didSet {
             let clampedProgress = progress.clamped(toMinimum: 0, maximum: 1)
                 angle = 360 * clampedProgress
@@ -206,15 +206,15 @@ public class KDCircularProgress: UIView, CAAnimationDelegate {
         refreshValues()
     }
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         checkAndSetIBColors()
     }
     
-    override public class var layerClass: AnyClass {
+    override open class var layerClass: AnyClass {
         return KDCircularProgressViewLayer.self
     }
     
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         radius = (frame.size.width / 2.0) * 0.8
     }
@@ -250,7 +250,7 @@ public class KDCircularProgress: UIView, CAAnimationDelegate {
         set(colors: colors)
     }
     
-    private func set(colors: [UIColor]) {
+    @objc public func set(colors: [UIColor]) {
         progressLayer.colorsArray = colors
         progressLayer.setNeedsDisplay()
     }
@@ -312,19 +312,19 @@ public class KDCircularProgress: UIView, CAAnimationDelegate {
         }
     }
     
-    public override func didMoveToWindow() {
+    open override func didMoveToWindow() {
         if let window = window {
             progressLayer.contentsScale = window.screen.scale
         }
     }
     
-    public override func willMove(toSuperview newSuperview: UIView?) {
+    open override func willMove(toSuperview newSuperview: UIView?) {
         if newSuperview == nil && isAnimating() {
             pauseAnimation()
         }
     }
     
-    public override func prepareForInterfaceBuilder() {
+    open override func prepareForInterfaceBuilder() {
         setInitialValues()
         refreshValues()
         checkAndSetIBColors()
